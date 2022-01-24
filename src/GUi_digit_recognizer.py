@@ -2,19 +2,21 @@ from keras.models import load_model
 from tkinter import *
 import tkinter as tk
 from PIL import Image, ImageOps
+from Preprocessing import *
 import numpy as np
 
-model = load_model('mnist2.h5')
+model = load_model('Models/mnist2.h5')
 
 def predict_digit(img):
     #resize image to 28x28 pixels
-    img = img.resize((28,28))
     #convert rgb to grayscale
-    img = img.convert('L')
-    img = ImageOps.invert(img)
+    img = adjust_colors(img)
     img.show()
-    img = np.array(img)
-    #reshaping to support our model input and normalizing
+    img = resize_image(img)
+    # img = np.array(img)
+    # #reshaping to support our model input and normalizing
+    # 
+    img = adjust_center(img)
     img = img.reshape(1,28,28,1)
     img = img/255.0
     #predicting the class
