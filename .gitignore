@@ -1,0 +1,4 @@
+img.eps
+.vscode
+src/__pycache__
+mnist.h5
