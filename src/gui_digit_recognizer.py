@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 from preprocessing import adjust_colors, resize_image, adjust_center
 
-
+# Class to represent the GUI 
 class App(tk.Tk):
     def __init__(self, model_path):
         tk.Tk.__init__(self)
@@ -34,20 +34,22 @@ class App(tk.Tk):
         self.canvas.bind("<B1-Motion>", self.draw_lines)
 
     def predict_digit(self, img):
-        # resize image to 28x28 pixels
-        # convert rgb to grayscale
+        # Convert rgb to grayscale
         img = adjust_colors(img)
+
+        # Resize image to 28x28 pixels
         img = resize_image(img)
 
-        # reshaping to support our model input and normalizing
+        # Reshaping to support our model input and normalizing
         img = adjust_center(img)
         img = img.reshape(1, 28, 28, 1)
         img = img / 255.0
 
-        # predicting the class
+        # Predicting the image class
         res = self.model.predict([img])[0]
         return np.argmax(res), max(res)
 
+    # Cleaning the screen
     def clear_all(self):
         self.canvas.delete("all")
 
